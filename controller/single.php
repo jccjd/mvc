@@ -6,32 +6,38 @@
  * Time: 15:45
  * 单例模式
  */
-class  singletonv2{
-    /*保存类实例的静态成员变量*/
-    private static $_instance;
-    /*private标记构造方法*/
+class SingletonV1 {
+    private static $_instance = null;
+    protected  static $_instance2 = null;
+
+    /*私有防止外面访问*/
     private function __construct()
     {
     }
-    //防止被克隆
-    public  function  __clone()
+    /*私有防止外面访问*/
+    private function __clone()
     {
         // TODO: Implement __clone() method.
-        trigger_error("Clone is not allow",E_USER_ERROR);
     }
-
-    public static function getInstance() {
-        if (static::$_instance instanceof self) {
-            static::$_instance = new self();
+    //静态方法，单例统一访问
+    static public function getInstance() {
+        if ( is_null(self::$_instance) || isset(self::$_instance)) {
+            self::$_instance = new self();
         }
-        return static::$_instance;
+        return self::$_instance;
     }
+
+    /**
+     * @return null
+     * v2
+     */
+    public static function getInstance2()
+    {
+        if (static::$_instance===null)
+        {
+            self::$_instance = new static;
+        }
+        return self::$_instance2;
+    }
+
 }
-//用new 实例化private标记的构造函数的类会报错
-
-//$danll = new Danll();
-//正确方法
-$danll = singletonv1::getInstance();
-
-//克隆返回错误
-$danll_clone = clone $danll;
