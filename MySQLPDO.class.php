@@ -4,26 +4,40 @@
  */
 class MySQLPDO{
 	//数据库默认连接信息
+    private $dbConfig = array(
+        'db' => 'mysql',
+        'host' => 'localhost',
+        'port' => '3306',
+        'charset' => 'utf8',
+        'dbname' => 'demo',
+        ''
+    );
 
 	//单例模式 本类对象引用
     private static $instance;
 	//PDO实例
+    private $db;
 	/**
 	 * 私有构造方法
 	 * @param $params array 数据库连接信息
 	 */
-	private function __construct($params){
-		//初始化属性
-		$this->dbConfig = array_merge($this->dbConfig,$params);
-		//连接服务器
-		$this->connect();
-	}
-	/**
+    private function __construct($params)
+    {
+        $this->dbConfig = array_merge($this->dbConfig,$params);
+        $this->connect();
+    }
+
+    /**
 	 * 获得单例对象
 	 * @param $params array 数据库连接信息
 	 * @return object 单例的对象
 	 */
-
+    private function getInstance($param = array()) {
+        if (!self::$instance instanceof self) {
+            self::$instance = new self($param);
+        }
+        return self::$instance;
+    }
 	/**
 	 * 私有克隆
 	 */
@@ -34,23 +48,20 @@ class MySQLPDO{
 	private function connect(){
 		try{
 			//连接信息
-			$dsn = "{$this->dbConfig['db']}:host={$this->dbConfig['host']};
-			port={$this->dbConfig['host']};
-			dbname={$this->dbConfig['dbname']};
-			charset={$this->dbConfig['charset']}";
+		    $dsn = "$this->dbConfig['db']:
+                           host={$this->dbConfig['host']};
+                           port={$this->dbConfig['dbname']};
+                           charset{$this->dbConfig['charset']}";
 			//实例化PDO
-            //==========================================================================================================
-            //真实的数据库连接操作就下面一句话起作用，
-            //注意在实例化pdo 对象时 添加以下参数 array(PDO::ATTR_PERSISTENT => true) 可将请求的连接变为长连接
-			$this->db = new PDO(
-			    $dsn,
-                $this->dbConfig['user'],
-                $this->dbConfig['pass'],
-                array(PDO::ATTR_PERSISTENT => true));
-			//==========================================================================================================
+            $this->db = new PDO(
+                    $dsn,
+                    $this->dbConfig['user'],
+                    $this->dbConfig['pass'],
+                //注意在实例化pdo 对象时 添加以下参数 array(PDO::ATTR_PERSISTENT => true) 可将请求的连接变为长连接
+                    array(PDO::ATTR_PERSISTENT=>true)
+                );
+            $this->db->query("set names {$this->dbConfig['charset']}");
 
-
-			$this->db->query("set names {$this->dbConfig['charset']}");
 		}catch (PDOException $e){
 			//错误提示
 			die("数据库操作失败：{$e->getMessage()}");
