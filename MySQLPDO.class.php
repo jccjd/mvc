@@ -74,6 +74,13 @@ class MySQLPDO
             //错误提示
             die("数据库操作失败：{$e->getMessage()}");
         }
+        try {
+
+
+
+        }catch (PDOException $e) {
+            die("{$e->getMessage()}");
+        }
     }
 
     /**
@@ -103,7 +110,7 @@ class MySQLPDO
      */
 
     public function exec($sql) {
-        $rst = $this->db-exec($sql);
+        $rst = $this->db->exec($sql);
         if ($rst === false) {
             $error = $this->db-errorInfo();
             die("数据库操作失败：ERROR {$error[1]}({$error[0]}:{$error[2]})");
