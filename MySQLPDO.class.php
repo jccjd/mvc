@@ -4,19 +4,10 @@
  */
 class MySQLPDO{
 	//数据库默认连接信息
-	private $dbConfig = array(
-		'db'   => 'mysql', //数据库类型
-		'host' => 'localhost', //服务器地址
-		'port' => '3306', //端口
-		'user' => 'root', //用户名
-		'pass' => '', //密码
-		'charset' => 'utf8', //字符集
-		'dbname' => '', //默认数据库
-	);
+
 	//单例模式 本类对象引用
-	private static $instance;
+    private static $instance;
 	//PDO实例
-	private $db;
 	/**
 	 * 私有构造方法
 	 * @param $params array 数据库连接信息
@@ -32,12 +23,7 @@ class MySQLPDO{
 	 * @param $params array 数据库连接信息
 	 * @return object 单例的对象
 	 */
-	public static function getInstance($params = array()){
-		if(!self::$instance instanceof self){
-			self::$instance = new self($params);
-		}
-		return self::$instance; //返回对象
-	}
+
 	/**
 	 * 私有克隆
 	 */
