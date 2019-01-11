@@ -41,3 +41,18 @@ class SingletonV1 {
     }
 
 }
+abstract class Singleton {
+    final protected function __clone()
+    {
+        // TODO: Implement __clone() method.
+    }
+    final protected function __construct()
+    {
+    }
+    public static function getInstance() {
+        if (static::$instance === null) {
+            static::$instace = new static;
+        }
+        return static::$instance;
+    }
+}
