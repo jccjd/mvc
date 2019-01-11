@@ -48,13 +48,20 @@ class MySQLPDO{
 	private function connect(){
 		try{
 			//连接信息
-			$dsn = "{$this->dbConfig['db']}:host={$this->dbConfig['host']};port={$this->dbConfig['host']};dbname={$this->dbConfig['dbname']};charset={$this->dbConfig['charset']}";
+			$dsn = "{$this->dbConfig['db']}:host={$this->dbConfig['host']};
+			port={$this->dbConfig['host']};
+			dbname={$this->dbConfig['dbname']};
+			charset={$this->dbConfig['charset']}";
 			//实例化PDO
-            //=============================================================================================================
+            //==========================================================================================================
             //真实的数据库连接操作就下面一句话起作用，
             //注意在实例化pdo 对象时 添加以下参数 array(PDO::ATTR_PERSISTENT => true) 可将请求的连接变为长连接
-			$this->db = new PDO($dsn,$this->dbConfig['user'],$this->dbConfig['pass'], array(PDO::ATTR_PERSISTENT => true));
-			//=============================================================================================================
+			$this->db = new PDO(
+			    $dsn,
+                $this->dbConfig['user'],
+                $this->dbConfig['pass'],
+                array(PDO::ATTR_PERSISTENT => true));
+			//==========================================================================================================
 
 
 			$this->db->query("set names {$this->dbConfig['charset']}");
