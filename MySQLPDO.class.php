@@ -126,8 +126,8 @@ class MySQLPDO
      * @param $sql string 执行的SQL语句
      * @return array 关联数组结果
      */
-    public function fetchRow($sql)
-    {
+
+    public function fetchRow($sql) {
         return $this->query($sql)->fetch(PDO::FETCH_ASSOC);
     }
 
