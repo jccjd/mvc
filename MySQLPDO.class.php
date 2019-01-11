@@ -35,10 +35,10 @@ class MySQLPDO
      * @param $params array 数据库连接信息
      * @return object 单例的对象
      */
-    private function getInstance($param = array())
+    public function getInstance($params = array())
     {
         if (!self::$instance instanceof self) {
-            self::$instance = new self($param);
+            self::$instance = new self($params);
         }
         return self::$instance;
     }
