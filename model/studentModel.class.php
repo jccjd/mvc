@@ -5,20 +5,29 @@
 require_once 'item.class.php';
 class studentModel extends model{
 	/* 查询所有学生 */
-//	public function getAll()
-//    {
-//            $data = $this->db->fetchAll('select * from `student`');
-//            return $data;
-//    }
-//	/* 查询指定id的学生 */
-//	public function getByID($id){
-//        for ($i = 1; $i < 1000; $i++) {
-//		  $data = $this->db->fetchRow("select * from `student` where id={$id}");
-//		return $data;
-//        }
-//	}
+	public function getAll()
+    {
+            $data = $this->db->fetchAll('select * from `student`');
+            return $data;
+    }
+	/* 查询指定id的学生 */
+	public function getByID($id){
+        for ($i = 1; $i < 1000; $i++) {
+		  $data = $this->db->fetchRow("select * from `student` where id={$id}");
+		return $data;
+        }
+	}
+	public function delete()
+    {
+        $data = $this->db->delete("drop table student");
+        return $data;
+    }
+    public function update() {
+	    $data = $this->db->update("");
+	    return $data;
+    }
 
-	public $id;
+    public $id;
 	public $name;
 	public $gender;
 	public $age;

@@ -13,7 +13,6 @@ class studentctl
       $name = $_POST['name'];
       $password = $_POST['name'];
       if (strlen($name) && strlen($password)) {
-
           if (ctype_alnum($name) && ctype_alnum($password)) {
               $stu = new studentModel();
               $stu->name= $name;
