@@ -7,43 +7,20 @@
  * Time: 15:45
  * 单例模式
  */
-class Singleton0
-{
-    private static $instance = null;
-    private static $instance1 = null;
-    private function __construct()
-    {
-    }
+class Singleton1 {
 
-    private function __clone()
-    {
-        // TODO: Implement __clone() method.
-    }
+    protected static $instance=null;
 
     /**
      * @return null
      */
-    static public function getInstance()
-    {
-        if (is_null(self::$instance) || isset(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-
-    /**
-     * @return null
-     */
-    public static function getInstance1()
+    public static function getInstance()
     {
         if (static::$instance === null) {
             static::$instance = new static;
         }
-        return self::$instance1;
+        return self::$instance;
     }
-}
-class Singleton2 {
-    protected static $instace = null;
 
     private function __construct()
     {
@@ -54,60 +31,39 @@ class Singleton2 {
         // TODO: Implement __clone() method.
     }
 
-    /**
-     * @return null
-     */
-    public static function getInstace()
-    {
-        if (static::$instace === null) {
-            static::$instace = new static;
-        }
-        return self::$instace;
-    }
-
 
 }
 
-abstract class Singleton
-{
+abstract class Singleton {
+    final public function __construct()
+    {
+        $this->init();
+    }
+    final public function init() {
 
-    final protected function __clone()
+    }
+    final public function __clone()
     {
         // TODO: Implement __clone() method.
     }
 
-    final protected function __construct()
-    {
-        $this->init();
-    }
-
-    protected function init()
-    {
-    }
-
     public static function getInstance()
     {
-        if (static::$instance === null) {
+        if (static::$instacne === null) {
             static::$instance = new static();
         }
-        return static::$instance;
+        return static::$instacne;
     }
 }
+class Base extends Singleton {
 
-class Base extends Singleton
-{
 }
-
-class A extends Base
-{
+class A extends Base {
+     protected static $instance = null;
+}
+class B extends Base {
     protected static $instance = null;
 }
-
-class B extends Base
-{
-    protected static $instance = null;
-}
-
 $c = A::getInstance();
 $d = B::getInstance();
 var_dump($c === $d);

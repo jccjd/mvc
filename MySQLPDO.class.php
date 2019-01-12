@@ -26,7 +26,7 @@ class MySQLPDO
      */
     private function __construct($params)
     {
-        $this->dbConfig = array_merge($this->dbConfig, $params);
+        $this->dbConfig = array_merge($this->dbConfig,$params);
         $this->connect();
     }
 
@@ -35,13 +35,13 @@ class MySQLPDO
      * @param $params array 数据库连接信息
      * @return object 单例的对象
      */
-    public function getInstance($params = array())
-    {
+    public static function getInstance($params = array()) {
         if (!self::$instance instanceof self) {
             self::$instance = new self($params);
         }
         return self::$instance;
     }
+
 
     /**
      * 私有克隆
@@ -75,14 +75,22 @@ class MySQLPDO
             die("数据库操作失败：{$e->getMessage()}");
         }
         try {
+            $dns = "$this->dbConfig['db']:
+                            host={$this->dbConfig['host']};
+                            port={$this->dbConfig['port']}
+                            charset={$this->dbConfig['charset']}";
+            $this->db = new PDO(
+              $dns,
+              $this->dbConfig['user'],
+              $this->dbConfig['pass'],
+              array(PDO::ATTR_PERSISTENT)
+            );
+            $this->db-$this->query("set name {$this->dbConfig['charset']}");
+        } catch (PDOException $a) {
+            die($a->getMessage());
 
-
-
-        }catch (PDOException $e) {
-            die("{$e->getMessage()}");
-        }
     }
-
+}
     /**
      * 执行SQL
      * @param $sql string 执行的SQL语句
@@ -90,18 +98,20 @@ class MySQLPDO
      */
     public function query($sql)
     {
-        $rst = $this->db->query($sql);
-        if ($rst === false) {
-            $error = $this->db->errorInfo();
-            die("数据库操作失败：ERRPR {$error[1]}({$error[0]}):{$error[2]}");
-        }
+    $rst = $this->db->query($sql);
+    if ($rst === false) {
+        $error = $this->db->errorInfo();
+        die(":{$error[1]}({$error[0]}):{$error[2]}");
+    }
+    return $rst;
+    }
 //        $rst = $this->db->query($sql);
 //        if ($rst === false) {
 //            $error = $this->db->errorInfo();
 //            die("数据库操作失败：ERROR {$error[1]}({$error[0]}): {$error[2]}");
 //        }
 //        return $rst;
-    }
+//    }
 
     /**
      * 执行SQL
@@ -118,15 +128,6 @@ class MySQLPDO
         return $rst;
     }
 
-//    public function exec($sql)
-//    {
-//        $rst = $this->db->exec($sql);
-//        if ($rst === false) {
-//            $error = $this->db->errorInfo();
-//            die("数据库操作失败：ERROR {$error[1]}({$error[0]}): {$error[2]}");
-//        }
-//        return $rst;
-//    }
 
     /**
      * 取得一行结果
