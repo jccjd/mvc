@@ -50,6 +50,7 @@
 
     $(function() {
         searchData();
+        delData();
     });
 
     function prepareDisplayData(data) {
@@ -61,7 +62,7 @@
     }
 
     function searchData() {
-        var search_url = "./php/data.php";
+        var search_url = "./read_data.php";
 
         //url 中问号后面的参数 action，这个对象就是查询的参数
         var dataParam = {
@@ -98,6 +99,42 @@
                 alert('服务器出错');
             },
         });
+    }
+
+
+
+    function delData() {
+        $remove.on('click', function() {
+            if(confirm("是否继续删除")) {
+                var rows = $.map($table.bootstrapTable('getSelections'), function(row) {
+                    //返回选中的行的索引号
+                    return row.user_id;
+                });
+            }
+
+            $.map($table.bootstrapTable('getSelections'),function(row){
+                var del_url = "./delete.php";
+                //根据userId删除数据,因为这个id就是 传给服务器的参数
+                var rowId = row.user_id;
+
+                $.ajax({
+                    type:"delete",
+                    url:del_url + "?action=del_row&rowId=" + rowId,
+                    dataType:"html",
+                    contentType: 'application/json;charset=utf-8',
+                    success: function(data) {
+                        $table.bootstrapTable('remove',{
+                            field: 'user_id',
+                            values: rows
+                        });
+                        $remove.prop('disabled', true);
+                    },
+                    error:function(data){
+                        alert('删除失败！');
+                    }
+                });
+            });
+        })
     }
 
     $('#table').bootstrapTable({
