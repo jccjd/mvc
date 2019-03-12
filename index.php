@@ -1,5 +1,5 @@
 <?php
-header('Content-type:text/html; charset = utf8');
+/*header('Content-type:text/html; charset = utf8');
 //载入数据库操作类
 require "MySQLPDO.class.php";
 //载入模型文件
@@ -16,4 +16,24 @@ $controller = new $c.'Controller';
 $a = isset($_GET['a'])?$_GET['a']:'list';
 $action_name = $a.'Action';
 //调用方法
-$controller->$action_name();
+$controller->$action_name();*/
+/*require('controller/democontroller.php');
+$controller = new DemoController();
+$controller->index();*/
+//index.php
+// get runtime controller prefix
+$c_str = $_GET['c'];
+// the full name of controller
+$c_name = $c_str.'controller';
+// the path of controller
+$c_path = 'controller/'.$c_name.'.php';
+// get runtime action
+$method = $_GET['a'];
+// load controller file
+require($c_path);
+// instantiate controller
+$controller = new $c_name;
+// run the controller  method
+$controller->$method();
+// End of index.php
+//http://localhost:63342/mvc/index.php?c=demo&a=index
