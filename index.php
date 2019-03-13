@@ -15,12 +15,17 @@ $controller = new $c.'Controller';
 //得到方法名
 $a = isset($_GET['a'])?$_GET['a']:'list';
 $action_name = $a.'Action';
+
+
 //调用方法
 $controller->$action_name();*/
 /*require('controller/democontroller.php');
 $controller = new DemoController();
 $controller->index();*/
-//index.php
+
+
+
+/*//index.php
 // get runtime controller prefix
 $c_str = $_GET['c'];
 // the full name of controller
@@ -34,6 +39,6 @@ require($c_path);
 // instantiate controller
 $controller = new $c_name;
 // run the controller  method
-$controller->$method();
+$controller->$method();*/
 // End of index.php
 //http://localhost:63342/mvc/index.php?c=demo&a=index
